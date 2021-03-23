@@ -1,7 +1,7 @@
 compat: v0
-id: hello-world
-version: 0.1.0
-title: hello-world
+id: sphinx-relay
+version: 2.0.3
+title: Sphinx Chat
 description:
   short: "A simple, minimal project to serve as a template for creating an app for the Embassy."
   long: "Hello World is a simple, minimal project to serve as a template for creating an app for the Embassy."
@@ -13,7 +13,7 @@ image:
   type: tar
 mount: /root
 has-instructions: true
-os-version-required: ">=0.2.4"
-os-version-recommended: ">=0.2.4"
+os-version-required: ">=0.2.11"
+os-version-recommended: ">=0.2.11"
 assets: []
 hidden-service-version: v3
