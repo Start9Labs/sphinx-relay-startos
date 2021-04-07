@@ -1,14 +1,4 @@
 ---
-password:
-  type: string
-  nullable: false
-  name: Password
-  description: The password for connecting to sphinx chat
-  default:
-    charset: "a-f,0-9"
-    len: 32
-  pattern: '^[^\n"]*$'
-  patternDescription: "Must not contain newline or quote characters."
 lnd:
   type: pointer
   name: LND LAN address
