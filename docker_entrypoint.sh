@@ -1,7 +1,7 @@
 #!/bin/sh
 
 export PUBLIC_URL=$TOR_ADDRESS:3300
-export LND_IP=$(yq e '.lnd' /relay/.lnd/start9/config.yaml)
+export LND_IP=$(yq e '.lightning-config.lnd' /relay/.lnd/start9/config.yaml)
 export PASSWORD=$(yq e '.password' /relay/.lnd/start9/config.yaml)
 
 jq '.production.macaroon_location = "/relay/.lnd/start9/public/lnd/admin.macaroon"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
