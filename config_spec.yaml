@@ -1,7 +1,14 @@
 ---
-lnd:
-  type: pointer
-  name: LND LAN address
-  subtype: app
-  app-id: lnd
-  target: lan-address
+lightning-config:
+  type: object
+  name: LND Config
+  description: Configuration for the supporting LND node
+  nullable: false
+  nullByDefault: false
+  spec:
+    lnd:
+      type: pointer
+      name: LND LAN address
+      subtype: app
+      app-id: lnd
+      target: lan-address
