@@ -1,6 +1,6 @@
 compat: v0
 id: sphinx-relay
-version: 2.0.6
+version: 2.0.11
 title: Sphinx Chat
 description:
   short: "A simple, minimal project to serve as a template for creating an app for the Embassy."
