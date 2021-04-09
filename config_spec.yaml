@@ -2,13 +2,13 @@
 lightning-config:
   type: object
   name: LND Config
-  description: Configuration for the supporting LND node
+  description: Configuration for the supporting LND node.
   nullable: false
   nullByDefault: false
   spec:
     lnd:
       type: pointer
-      name: LND LAN address
+      name: LND LAN address. This is a reference to the location of the internal LND node and cannot be changed.
       subtype: app
       app-id: lnd
       target: lan-address
