@@ -1,6 +1,6 @@
-# Wrapper for hello-world
+# Wrapper for shinx-relay
 
-`hello-world` is a simple, minimal project to serve as a template for creating an app for the Embassy.
+This project wraps [Sphinx Relay](https://sphinx.chat) for EmbassyOS. Sphinx Relay is a wrapper around Lightning Network Daemon LND, handling network connectivity and data storage. Communication between Relay nodes takes place entirely on the Lightning Network, so communications are decentralized, untraceable, and encrypted. Message content is also end-to-end encrypted using client public keys on the Sphinx Chat client apps.
 
 ## Dependencies
 
@@ -16,8 +16,8 @@
 Clone the project locally. Note the submodule link to the original project(s). 
 
 ```
-git clone git@github.com:Start9Labs/hello-world-wrapper.git
-cd hello-world-wrapper
+git clone git@github.com:Start9Labs/sphinx-relay-wrapper.git
+cd sphinx-relay-wrapper
 ```
 
 ## Building
@@ -35,5 +35,5 @@ SSH into an Embassy device.
 Run the following command to determine successful install:
 
 ```
-appmgr install hello-world.s9pk
+appmgr install sphinx-relay.s9pk
 ```
