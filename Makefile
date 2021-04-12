@@ -14,9 +14,6 @@ sphinx-relay.s9pk: config_spec.yaml config_rules.yaml image.tar instructions.md 
 	appmgr -vv pack $(shell pwd) -o sphinx-relay.s9pk
 	appmgr -vv verify sphinx-relay.s9pk
 
-instructions.md: README.md
-	cp README.md instructions.md
-
 image.tar: Dockerfile docker_entrypoint.sh sphinx-relay-configurator/target/armv7-unknown-linux-musleabihf/release/sphinx-relay-configurator
 	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/sphinx-relay --platform=linux/arm/v7 -o type=docker,dest=image.tar .
 
