@@ -2,6 +2,9 @@ compat: v0
 id: sphinx-relay
 version: 2.0.11
 title: Sphinx Chat
+license-info:
+  license: MIT
+  url: https://github.com/stakwork/sphinx-relay/blob/master/LICENSE
 description:
   short: Chat on the Lightning Network.
   long: |
