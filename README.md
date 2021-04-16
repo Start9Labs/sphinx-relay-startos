@@ -1,6 +1,6 @@
-# Wrapper for shinx-relay
+# Wrapper for Sphinx Relay
 
-This project wraps [Sphinx Relay](https://sphinx.chat) for EmbassyOS. Sphinx Relay is a wrapper around Lightning Network Daemon LND, handling network connectivity and data storage. Communication between Relay nodes takes place entirely on the Lightning Network, so communications are decentralized, untraceable, and encrypted. Message content is also end-to-end encrypted using client public keys on the Sphinx Chat client apps.
+This project wraps [Sphinx Relay](https://sphinx.chat) for EmbassyOS.
 
 ## Dependencies
 
