@@ -1,5 +1,7 @@
 # Sphinx Relay (Instructions)
 
+*Please read carefully, or you are going to have a bad time!*
+
 ## Bitcoin and LND Dependencies
 
 Sphinx Relay depends on fully-synced Bitcoin and LND nodes, and it requires LND to be configured properly. EmbassyOS will inform you if there are any configuration issues and fix them for you!
@@ -19,10 +21,19 @@ Getting inbound liquidity is slightly harder. You have a few options:
 1. Ask Start9 for an invoice. This will allow you to move a small amount of sats to our side of the channel, thus granting you inbound liquidity from almost anyone on the Lightning Network.
 1. Ask someone with a well-connected node to open a channel with you.
 
-## Using the Sphinx App
+### Get a Sphinx Client App
 
 Now that your LND node is running with inbound and outbound liquidity, you are ready to use Sphinx.
 
-1. Download one of the official Sphinx client apps for iOS, Android, Mac, Linux, or Windows.
-1. Scan or copy your "Connection String" into the Sphinx client. This can be found inside the "Properties" page of your Sphinx Service.
-1. Start messaging!
+1. Download one of the official [Sphinx client apps](https://sphinx.chat) for iOS, Android, Mac, Linux, or Windows. If you are downloading the APK for Android, we recommend using Firefox.
+1. Scan or copy your "Connection String" into the Sphinx client. This can be found inside the `Properties` page of your Sphinx Embassy service.
+
+### Back up your Sphinx Client App!
+
+*Note: this is not the same as backing up Sphinx on your Embassy.*
+
+Go to Profile → (scroll to bottom) → Click "Export Keys" (Android) or "Backup Your Key" (iOS).
+
+This will copy a gigantic string of text to your device's clipboard. Paste it somewhere safe, like Bitwarden!
+
+Now, if you lose your device, or you want to run Sphinx on multiple devices, you can enter this key when setting up Sphinx on the new device.
