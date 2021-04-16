@@ -5,6 +5,10 @@ title: Sphinx Chat
 license-info:
   license: MIT
   url: https://github.com/stakwork/sphinx-relay/blob/master/LICENSE
+wrapper-repo: https://github.com/Start9Labs/sphinx-relay-wrapper
+upstream-repo: https://github.com/stakwork/sphinx-relay
+support-page: https://t.me/joinchat/Fb4OcRo4LrRD6NXfsNdeeQ
+marketing-page: https://sphinx.chat/
 description:
   short: Chat on the Lightning Network.
   long: |
