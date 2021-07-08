@@ -1,6 +1,6 @@
 compat: v0
 id: sphinx-relay
-version: 2.0.11
+version: 2.1.5
 title: Sphinx Chat
 license-info:
   license: MIT
@@ -29,7 +29,7 @@ assets: []
 hidden-service-version: v3
 dependencies:
   lnd:
-    version: ">=0.12.1.3 <0.13.0"
+    version: ">=0.12.1.3 <0.14.0"
     optional: ~
     description: "The LND node you wish to use with Sphinx Chat"
     mount-public: true
