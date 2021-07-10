@@ -1,6 +1,6 @@
 compat: v0
 id: sphinx-relay
-version: 2.0.11
+version: 2.1.5
 title: Sphinx Chat
 license-info:
   license: MIT
@@ -15,7 +15,7 @@ description:
     Sphinx Chat is a messaging service built on top of the Lightning Network. Each message sent and received
     on Sphinx is actually a transaction on Lightning. This serves to protect against spam and provides a
     means of monetizing content without trusted third parties.
-release-notes: Initial release.
+release-notes: https://github.com/stakwork/sphinx-relay/releases
 ports:
   - internal: 3300
     tor: 3300
@@ -29,7 +29,7 @@ assets: []
 hidden-service-version: v3
 dependencies:
   lnd:
-    version: ">=0.12.1.3 <0.13.0"
+    version: ">=0.12.1.3 <0.14.0"
     optional: ~
     description: "The LND node you wish to use with Sphinx Chat"
     mount-public: true
