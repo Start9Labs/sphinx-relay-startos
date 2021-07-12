@@ -25,7 +25,7 @@ Getting inbound liquidity is slightly harder. You have a few options:
 
 Now that your LND node is running with inbound and outbound liquidity, you are ready to use Sphinx.
 
-1. Download one of the official [Sphinx client apps](https://sphinx.chat) for iOS, Android, Mac, Linux, or Windows. If you are downloading the APK for Android, we recommend using Firefox.
+1. Download one of the official [Sphinx client apps](https://sphinx.chat) for iOS, Android, Mac, or Windows. Unfortunately the Linux and Windows versions do not yet support Tor. On Windows, some users report success using [Tallow](https://reqrypt.org/tallow.html) in conjunction with the Sphinx desktop app.  If you are downloading the APK for Android, we recommend using Firefox.
 1. Scan or copy your "Connection String" into the Sphinx client. This can be found inside the `Properties` page of your Sphinx Embassy service.
 
 ### Back up your Sphinx Client App!
