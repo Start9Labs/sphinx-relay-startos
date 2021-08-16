@@ -1,4 +1,4 @@
-FROM arm32v7/node:12-buster-slim AS builder
+FROM arm64v8/node:12-buster-slim AS builder
 
 WORKDIR /relay
 RUN mkdir /relay/.lnd
@@ -31,7 +31,7 @@ RUN cp /relay/config/config.json /relay/dist/config/config.json
 
 RUN npm rebuild
 
-FROM arm32v7/node:12-buster-slim
+FROM arm64v8/node:12-buster-slim
 
 RUN apt-get update
 RUN apt-get install wget -y

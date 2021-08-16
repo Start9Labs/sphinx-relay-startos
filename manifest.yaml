@@ -1,42 +1,107 @@
-compat: v0
 id: sphinx-relay
-version: 2.1.5
 title: Sphinx Chat
-license-info:
-  license: MIT
-  url: https://github.com/stakwork/sphinx-relay/blob/master/LICENSE
-wrapper-repo: https://github.com/Start9Labs/sphinx-relay-wrapper
-upstream-repo: https://github.com/stakwork/sphinx-relay
-support-page: https://t.me/joinchat/Fb4OcRo4LrRD6NXfsNdeeQ
-marketing-page: https://sphinx.chat/
+version: 2.1.5.1
+release-notes: "Upgrade to EmbassyOS v0.3.0"
+license: mit
+wrapper-repo: "https://github.com/Start9Labs/sphinx-relay-wrapper"
+upstream-repo: "https://github.com/stakwork/sphinx-relay"
+support-site: "https://t.me/joinchat/Fb4OcRo4LrRD6NXfsNdeeQ"
+marketing-site: "https://sphinx.chat/"
+build: ["make"]
+min-os-version: "0.3.0"
 description:
   short: Chat on the Lightning Network.
   long: |
-    Sphinx Chat is a messaging service built on top of the Lightning Network. Each message sent and received
-    on Sphinx is actually a transaction on Lightning. This serves to protect against spam and provides a
-    means of monetizing content without trusted third parties.
-release-notes: https://github.com/stakwork/sphinx-relay/releases
-ports:
-  - internal: 3300
-    tor: 3300
-image:
-  type: tar
-mount: /relay/.lnd
-has-instructions: true
-os-version-required: ">=0.2.12 <0.3.0"
-os-version-recommended: ">=0.2.12 <0.3.0"
-assets: []
-hidden-service-version: v3
+   Sphinx Chat is a messaging service built on top of the Lightning Network. Each message sent and received on Sphinx is actually a transaction on Lightning. This serves to protect against spam and provides a means of monetizing content without trusted third parties.
+assets:
+  license: LICENSE
+  icon: icon.png
+  instructions: instructions.md
+  docker-images: image.tar
+  icon-type: png
+main:
+  type: docker
+  image: main
+  entrypoint: "docker_entrypoint.sh"
+  args: []
+  mounts: {}
+  io-format: yaml
+health-checks: {}
+config:
+  get:
+    type: docker
+    image: compat
+    entrypoint: config
+    args: 
+      - "get"
+      - "/relay/.lnd"
+    mounts: {}
+    io-format: yaml
+  set:
+    type: docker
+    image: compat
+    entrypoint: config
+    args:
+      - "set"
+      - "/relay/.lnd"
+    mounts: {}
+    io-format: yaml
 dependencies:
   lnd:
-    version: ">=0.12.1.3 <0.14.0"
+    version: ">=0.13.0.5 <0.14.0"
+    recommended: true
+    critical: false
     optional: ~
-    description: "The LND node you wish to use with Sphinx Chat"
-    mount-public: true
+    description: The LND node you wish to use with Sphinx Chat.
     config:
-      - rule: "accept-keysend?"
-        description: "Must have keysend for LND enabled"
-        suggestions:
-          - SET:
-              var: "accept-keysend"
-              to-value: true
+      check: 
+        type: docker
+        image: compat
+        system: true
+        entrypoint: "true"
+      auto-configure:
+        type: docker
+        image: compat
+        system: true
+        entrypoint: "true"
+        implementation:
+          - rule: "accept-keysend?"
+            description: "Must have keysend for LND enabled"
+            suggestions:
+              - SET:
+                  var: "accept-keysend"
+                  to-value: true
+volumes:
+  lnd:
+    type: pointer
+    package-id: lnd
+    volume-id: main
+    path: "/root/.lnd"
+    readonly: false
+alerts: {}
+interfaces:
+  main:
+    name: Main
+    description: Main image interface configurations
+    tor-config:
+      port-mapping:
+        3300: "3300"
+    ui: true
+    protocols:
+      - tcp
+      - http
+backup:
+  create:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: "true"
+    args: []
+    mounts: {}
+  restore:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: "true"
+    args: []
+    mounts: {}
