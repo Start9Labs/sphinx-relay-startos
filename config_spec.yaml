@@ -4,7 +4,7 @@ lightning-config:
   name: LND Config
   description: Configuration for the supporting LND node.
   nullable: false
-  nullByDefault: false
+  null-by-default: false
   spec:
     lnd:
       type: pointer
