@@ -18,39 +18,72 @@ assets:
   icon: icon.png
   instructions: instructions.md
   docker-images: image.tar
-  icon-type: png
 main:
   type: docker
   image: main
-  entrypoint: "docker_entrypoint.sh"
+  entrypoint: docker_entrypoint.sh
   args: []
-  mounts: {}
+  mounts:
+    main: "/relay/.lnd"
+    lnd: /mnt/lnd
   io-format: yaml
-health-checks: {}
+health-checks:
+  main: 
+    type: docker
+    image: main
+    system: false
+    entrypoint: sh
+    args: ["-c", "echo 'TODO' || exit 1"]
+    mounts:
+      main: /root
+    io-format: yaml
+    critical: false
 config:
   get:
     type: docker
     image: compat
-    entrypoint: config
+    system: true
+    entrypoint: compat
     args: 
-      - "get"
+      - config
+      - get
       - "/relay/.lnd"
-    mounts: {}
+      - "/mnt/assets/config_spec.yaml"
+    mounts:
+      compat: /mnt/assets
+      main: "/relay/.lnd"
     io-format: yaml
   set:
     type: docker
     image: compat
-    entrypoint: config
+    system: true
+    entrypoint: compat
     args:
-      - "set"
+      - config
+      - set
+      - "sphinx-relay"
       - "/relay/.lnd"
-    mounts: {}
-    io-format: yaml
+      - "/mnt/assets/config_rules.yaml"
+    mounts:
+      compat: /mnt/assets
+      main: "/relay/.lnd"
+properties:
+  type: docker
+  image: compat
+  system: true
+  entrypoint: compat
+  args:
+    - properties
+    - "/relay/.lnd"
+  mounts:
+    main: "/relay/.lnd"
+    compat: /mnt/assets
+  io-format: yaml
 dependencies:
   lnd:
     version: ">=0.13.0.5 <0.14.0"
     recommended: true
-    critical: false
+    critical: true
     optional: ~
     description: The LND node you wish to use with Sphinx Chat.
     config:
@@ -58,20 +91,33 @@ dependencies:
         type: docker
         image: compat
         system: true
-        entrypoint: "true"
+        entrypoint: compat
+        args:
+          - dependency
+          - check
+          - lnd
+          - "/relay/.lnd"
+          - "/mnt/assets/lnd_config_rules.yaml"
+        mounts: 
+          main: "/relay/.lnd"
+          compat: /mnt/assets
       auto-configure:
         type: docker
         image: compat
         system: true
-        entrypoint: "true"
-        implementation:
-          - rule: "accept-keysend?"
-            description: "Must have keysend for LND enabled"
-            suggestions:
-              - SET:
-                  var: "accept-keysend"
-                  to-value: true
+        entrypoint: compat
+        args: 
+          - dependency
+          - "auto-configure"
+          - lnd
+          - "/mnt/assets/lnd_config_rules.yaml"
+        mounts:
+          compat: /mnt/assets
 volumes:
+  main:
+    type: data
+  compat:
+    type: assets
   lnd:
     type: pointer
     package-id: lnd
@@ -80,9 +126,9 @@ volumes:
     readonly: false
 alerts: {}
 interfaces:
-  main:
-    name: Main
-    description: Main image interface configurations
+  network:
+    name: Network Interface
+    description: Specifies the interfaces to listen on for HTTP connections.
     tor-config:
       port-mapping:
         3300: "3300"
@@ -95,13 +141,27 @@ backup:
     type: docker
     image: compat
     system: true
-    entrypoint: "true"
-    args: []
-    mounts: {}
+    entrypoint: compat
+    args:
+      - duplicity
+      - create
+      - "sphinx-relay"
+      - /mnt/backup
+      - "/relay/.lnd"
+    mounts:
+      BACKUP: /mnt/backup
+      main: "/relay/.lnd"
   restore:
     type: docker
     image: compat
     system: true
-    entrypoint: "true"
-    args: []
-    mounts: {}
+    entrypoint: compat
+    args:
+      - duplicity
+      - restore
+      - "sphinx-relay"
+      - "/relay/.lnd"
+      - /mnt/backup
+    mounts:
+      BACKUP: /mnt/backup
+      main: "/relay/.lnd"
