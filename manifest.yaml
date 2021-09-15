@@ -160,8 +160,8 @@ backup:
       - duplicity
       - restore
       - "sphinx-relay"
-      - "/relay/.lnd"
       - /mnt/backup
+      - "/relay/.lnd"
     mounts:
       BACKUP: /mnt/backup
       main: "/relay/.lnd"
