@@ -1,0 +1,21 @@
+tor-address:
+  name: Network Tor Address
+  description: The Tor address for the network interface. 
+  type: pointer
+  subtype: package
+  package-id: sphinx-relay
+  target: tor-address
+  interface: control
+lightning-config:
+  type: object
+  name: LND Config
+  description: Configuration for the supporting LND node.
+  nullable: false
+  null-by-default: false
+  spec:
+    lnd:
+      type: pointer
+      name: LND LAN address. This is a reference to the location of the internal LND node and cannot be changed.
+      subtype: app
+      app-id: lnd
+      target: lan-address
