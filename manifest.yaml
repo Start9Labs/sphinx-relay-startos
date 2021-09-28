@@ -82,9 +82,9 @@ properties:
 dependencies:
   lnd:
     version: ">=0.13.0.5 <0.14.0"
-    recommended: true
     critical: true
-    optional: ~
+    requirement:
+      type: required
     description: The LND node you wish to use with Sphinx Chat.
     config:
       check: 
