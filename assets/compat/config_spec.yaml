@@ -6,16 +6,3 @@ tor-address:
   package-id: sphinx-relay
   target: tor-address
   interface: network
-lightning-config:
-  type: object
-  name: LND Config
-  description: Configuration for the supporting LND node.
-  nullable: false
-  null-by-default: false
-  spec:
-    lnd:
-      type: string
-      name: LND LAN address. This is a reference to the location of the internal LND node and cannot be changed.
-      default: lnd.embassy
-      nullable: false
-      copyable: true
