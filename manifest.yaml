@@ -155,6 +155,7 @@ backup:
     mounts:
       BACKUP: /mnt/backup
       main: "/relay/.lnd"
+    io-format: true
   restore:
     type: docker
     image: compat
@@ -168,3 +169,4 @@ backup:
     mounts:
       BACKUP: /mnt/backup
       main: "/relay/.lnd"
+    io-format: true
