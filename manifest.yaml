@@ -31,13 +31,11 @@ health-checks:
   main: 
     type: docker
     image: main
-    system: false
     entrypoint: sh
-    args: ["-c", "curl http://localhost:3300 || exit 1"]
-    mounts:
-      main: /root
+    args: ["-c", "curl sphinx-relay.embassy:3300 || exit 1"]
     io-format: yaml
     critical: false
+    inject: true
 config:
   get:
     type: docker
@@ -58,7 +56,6 @@ config:
     image: compat
     system: true
     entrypoint: compat
-    io-format: yaml
     args:
       - config
       - set
@@ -68,6 +65,7 @@ config:
     mounts:
       compat: /mnt/assets
       main: "/relay/.lnd"
+    io-format: yaml
 properties:
   type: docker
   image: compat
@@ -96,12 +94,14 @@ dependencies:
         args:
           - dependency
           - check
+          - sphinx-relay
           - lnd
           - "/relay/.lnd"
           - "/mnt/assets/lnd_config_rules.yaml"
         mounts: 
           main: "/relay/.lnd"
           compat: /mnt/assets
+        io-format: yaml
       auto-configure:
         type: docker
         image: compat
@@ -110,10 +110,14 @@ dependencies:
         args: 
           - dependency
           - "auto-configure"
+          - sphinx-relay
           - lnd
+          - "/relay/.lnd"
           - "/mnt/assets/lnd_config_rules.yaml"
         mounts:
+          main: "/relay/.lnd"
           compat: /mnt/assets
+        io-format: yaml
 volumes:
   main:
     type: data
@@ -146,7 +150,6 @@ backup:
     args:
       - duplicity
       - create
-      - "sphinx-relay"
       - /mnt/backup
       - "/relay/.lnd"
     mounts:
@@ -160,7 +163,6 @@ backup:
     args:
       - duplicity
       - restore
-      - "sphinx-relay"
       - /mnt/backup
       - "/relay/.lnd"
     mounts:
