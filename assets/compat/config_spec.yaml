@@ -1,8 +1,1 @@
-tor-address:
-  name: Network Tor Address
-  description: The Tor address for the network interface. 
-  type: pointer
-  subtype: package
-  package-id: sphinx-relay
-  target: tor-address
-  interface: network
+[]

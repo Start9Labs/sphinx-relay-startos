@@ -36,36 +36,7 @@ health-checks:
     io-format: yaml
     critical: false
     inject: true
-config:
-  get:
-    type: docker
-    image: compat
-    system: true
-    entrypoint: compat
-    args: 
-      - config
-      - get
-      - "/relay/.lnd"
-      - "/mnt/assets/config_spec.yaml"
-    mounts:
-      compat: /mnt/assets
-      main: "/relay/.lnd"
-    io-format: yaml
-  set:
-    type: docker
-    image: compat
-    system: true
-    entrypoint: compat
-    args:
-      - config
-      - set
-      - "sphinx-relay"
-      - "/relay/.lnd"
-      - "/mnt/assets/config_rules.yaml"
-    mounts:
-      compat: /mnt/assets
-      main: "/relay/.lnd"
-    io-format: yaml
+config: ~
 properties:
   type: docker
   image: compat
@@ -127,7 +98,7 @@ volumes:
     type: pointer
     package-id: lnd
     volume-id: main
-    path: "/root/.lnd"
+    path: "/public"
     readonly: false
 alerts: {}
 interfaces:
@@ -155,7 +126,7 @@ backup:
     mounts:
       BACKUP: /mnt/backup
       main: "/relay/.lnd"
-    io-format: true
+    io-format: yaml
   restore:
     type: docker
     image: compat
@@ -169,4 +140,4 @@ backup:
     mounts:
       BACKUP: /mnt/backup
       main: "/relay/.lnd"
-    io-format: true
+    io-format: yaml
