@@ -29,12 +29,14 @@ main:
   io-format: yaml
 health-checks:
   main: 
+    name: Web Interface
+    description: Ensures the network interface is accessible via HTTP.
     type: docker
     image: main
     entrypoint: sh
-    args: ["-c", "curl sphinx-relay.embassy:3300 || exit 1"]
+    args: ["-c", "curl --silent --show-error --fail sphinx-relay.embassy:3300 || exit 1"]
     io-format: yaml
-    critical: false
+    severity: warning
     inject: true
 config: ~
 properties:
