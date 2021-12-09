@@ -36,7 +36,6 @@ health-checks:
     entrypoint: sh
     args: ["-c", "curl --silent --show-error --fail sphinx-relay.embassy:3300 || exit 1"]
     io-format: yaml
-    severity: warning
     inject: true
 config: ~
 properties:
