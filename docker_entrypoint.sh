@@ -1,8 +1,17 @@
-#!/bin/sh
+#!/bin/bash
+
+set -ea
+
+_term() { 
+  echo "Caught SIGTERM signal!" 
+  kill -TERM "$properties_process" 2>/dev/null
+  kill -TERM "$sphinx_process" 2>/dev/null
+}
+
 jq '.production.macaroon_location = "/mnt/lnd/admin.macaroon"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
 jq '.production.tls_location = "/mnt/lnd/tls.cert"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
 jq '.production.connection_string_path = "/relay/.lnd/connection_string.txt"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
-jq ".production.lnd_ip = \"lnd.embassy\"" /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+jq ".production.lnd_ip = \"http://lnd.embassy:8080\"" /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
 
 render_properties() {
     while true; do
@@ -21,10 +30,17 @@ render_properties() {
             yq e -i '{"Connection String": .}' /relay/.lnd/start9/stats.yaml
             yq e -i '{"data": .}' /relay/.lnd/start9/stats.yaml
             yq e -i '.version = 2' /relay/.lnd/start9/stats.yaml
-            sleep 10
+            break
         fi
     done
 }
 
 render_properties &
-exec node /relay/dist/app.js
+properties_process=$!
+
+node /relay/dist/app.js &
+sphinx_process=$!
+
+trap _term SIGTERM
+
+wait -n $sphinx_process $properties_process
