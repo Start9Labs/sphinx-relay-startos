@@ -2,6 +2,9 @@
 
 set -ea
 
+# daemonized tcp proxy to acquire ip address for internal lnd
+simpleproxy -d -L 43 -R lnd.embassy:10009
+
 _term() { 
   echo "Caught SIGTERM signal!" 
   kill -TERM "$properties_process" 2>/dev/null
@@ -11,7 +14,10 @@ _term() {
 jq '.production.macaroon_location = "/mnt/lnd/admin.macaroon"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
 jq '.production.tls_location = "/mnt/lnd/tls.cert"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
 jq '.production.connection_string_path = "/relay/.lnd/connection_string.txt"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
-jq ".production.lnd_ip = \"http://lnd.embassy:8080\"" /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+jq '.production.lnd_ip = "localhost"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+jq '.production.lnd_port = "43"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+
+mkdir -p /relay/.lnd/start9/
 
 render_properties() {
     while true; do
@@ -20,7 +26,6 @@ render_properties() {
         then
             sleep 1
         else
-            # echo $CONNECTION_STRING > /relay/.lnd/connection_string.txt
             yq e -n '.type = "string"' > /relay/.lnd/start9/stats.yaml
             yq e -i ".value = \"$CONNECTION_STRING\"" /relay/.lnd/start9/stats.yaml
             yq e -i ".description = \"Connection String to enter into Sphinx Chat mobile app\"" /relay/.lnd/start9/stats.yaml
@@ -30,7 +35,7 @@ render_properties() {
             yq e -i '{"Connection String": .}' /relay/.lnd/start9/stats.yaml
             yq e -i '{"data": .}' /relay/.lnd/start9/stats.yaml
             yq e -i '.version = 2' /relay/.lnd/start9/stats.yaml
-            break
+            sleep 10
         fi
     done
 }

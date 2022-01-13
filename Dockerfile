@@ -37,7 +37,7 @@ RUN apt-get update
 RUN apt-get install wget -y
 RUN wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_arm.tar.gz -O - |\
   tar xz && mv yq_linux_arm /usr/bin/yq
-RUN apt-get install jq curl -y
+RUN apt-get install jq curl simpleproxy -y
 # USER 1000
 
 WORKDIR /relay
