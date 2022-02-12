@@ -1,15 +1,23 @@
-#!/bin/sh
+#!/bin/bash
 
-export PUBLIC_URL=$TOR_ADDRESS:3300
-export LND_IP=$(yq e '.lightning-config.lnd' /relay/.lnd/start9/config.yaml)
-export PASSWORD=$(yq e '.password' /relay/.lnd/start9/config.yaml)
+set -ea
 
-echo start9/public > .backupignore
-echo start9/shared >> .backupignore
-jq '.production.macaroon_location = "/relay/.lnd/start9/public/lnd/admin.macaroon"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
-jq '.production.tls_location = "/relay/.lnd/start9/public/lnd/tls.cert"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+# daemonized tcp proxy to acquire ip address for internal lnd
+simpleproxy -d -L 43 -R lnd.embassy:10009
+
+_term() { 
+  echo "Caught SIGTERM signal!" 
+  kill -TERM "$properties_process" 2>/dev/null
+  kill -TERM "$sphinx_process" 2>/dev/null
+}
+
+jq '.production.macaroon_location = "/mnt/lnd/admin.macaroon"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+jq '.production.tls_location = "/mnt/lnd/tls.cert"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
 jq '.production.connection_string_path = "/relay/.lnd/connection_string.txt"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
-jq ".production.lnd_ip = \"$LND_IP\"" /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+jq '.production.lnd_ip = "localhost"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+jq '.production.lnd_port = "43"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+
+mkdir -p /relay/.lnd/start9/
 
 render_properties() {
     while true; do
@@ -18,7 +26,6 @@ render_properties() {
         then
             sleep 1
         else
-            # echo $CONNECTION_STRING > /relay/.lnd/connection_string.txt
             yq e -n '.type = "string"' > /relay/.lnd/start9/stats.yaml
             yq e -i ".value = \"$CONNECTION_STRING\"" /relay/.lnd/start9/stats.yaml
             yq e -i ".description = \"Connection String to enter into Sphinx Chat mobile app\"" /relay/.lnd/start9/stats.yaml
@@ -34,4 +41,11 @@ render_properties() {
 }
 
 render_properties &
-exec node /relay/dist/app.js
+properties_process=$!
+
+node /relay/dist/app.js &
+sphinx_process=$!
+
+trap _term SIGTERM
+
+wait -n $sphinx_process $properties_process

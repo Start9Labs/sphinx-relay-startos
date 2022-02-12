@@ -35,5 +35,5 @@ SSH into an Embassy device.
 Run the following command to determine successful install:
 
 ```
-appmgr install sphinx-relay.s9pk
+embassy-cli package install sphinx-relay.s9pk
 ```
