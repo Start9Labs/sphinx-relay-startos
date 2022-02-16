@@ -30,12 +30,12 @@ main:
 health-checks:
   main: 
     name: Network Interface
-    description: Ensures the network interface is accessible via HTTP.
+    description: Ensures the relay server is accessible.
     type: docker
     image: main
-    entrypoint: sh
-    args: ["-c", "curl --silent --show-error --fail sphinx-relay.embassy:3300/app | yq eval || exit 1"]
-    io-format: yaml
+    entrypoint: check-interface.sh
+    args: []
+    io-format: json
     inject: true
 config: ~
 properties:

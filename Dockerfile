@@ -39,4 +39,7 @@ ENV NODE_SCHEME http
 ENV PORT 3300
 
 ADD ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
+RUN chmod +x /usr/local/bin/docker_entrypoint.sh
+ADD ./check-interface.sh /usr/local/bin/check-interface.sh
+RUN chmod +x /usr/local/bin/check-interface.sh
 ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
