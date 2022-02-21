@@ -17,7 +17,7 @@ install: sphinx-relay.s9pk
 sphinx-relay.s9pk: image.tar instructions.md instructions.md LICENSE icon.png $(ASSET_PATHS)
 	embassy-sdk pack
 
-image.tar: $(SPHINX_RELAY_SRC) Dockerfile docker_entrypoint.sh sphinx-relay-configurator/target/aarch64-unknown-linux-musl/release/sphinx-relay-configurator
+image.tar: $(SPHINX_RELAY_SRC) Dockerfile docker_entrypoint.sh check-interface.sh sphinx-relay-configurator/target/aarch64-unknown-linux-musl/release/sphinx-relay-configurator
 	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/sphinx-relay/main:${EMVER} --platform=linux/arm64/v8 -o type=docker,dest=image.tar .
 
 sphinx-relay-configurator/target/aarch64-unknown-linux-musl/release/sphinx-relay-configurator: $(SPHINX_RELAY_CFG_SRC)
