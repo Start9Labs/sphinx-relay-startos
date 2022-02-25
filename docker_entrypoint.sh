@@ -19,6 +19,24 @@ jq '.production.lnd_port = "43"' /relay/dist/config/app.json > /relay/dist/confi
 
 mkdir -p /relay/.lnd/start9/
 
+if ! test -d /mnt/lnd
+then
+    echo "LND mountpoint does not exist"
+    exit 0
+fi
+
+while ! test -f /mnt/lnd/tls.cert
+do
+    echo "Waiting for LND cert to be generated..."
+    sleep 1
+done
+
+while ! test -f /mnt/lnd/admin.macaroon
+do
+    echo "Waiting for LND admin macaroon to be generated..."
+    sleep 1
+done
+
 render_properties() {
     while true; do
         export CONNECTION_STRING=$(cat /relay/.lnd/connection_string.txt || true)
