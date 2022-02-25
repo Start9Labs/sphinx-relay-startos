@@ -30,7 +30,7 @@ main:
 health-checks:
   main: 
     name: Network Interface
-    description: Ensures the relay server is accessible.
+    success-message: The relay server is operational
     type: docker
     image: main
     entrypoint: check-interface.sh
