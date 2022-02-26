@@ -8,7 +8,6 @@ upstream-repo: "https://github.com/stakwork/sphinx-relay"
 support-site: "https://t.me/joinchat/Fb4OcRo4LrRD6NXfsNdeeQ"
 marketing-site: "https://sphinx.chat/"
 build: ["make"]
-min-os-version: "0.3.0"
 description:
   short: Chat on the Lightning Network.
   long: |
@@ -53,7 +52,6 @@ properties:
 dependencies:
   lnd:
     version: ">=0.13.0.5 <0.14.0"
-    critical: true
     requirement:
       type: required
     description: The LND node you wish to use with Sphinx Chat.
