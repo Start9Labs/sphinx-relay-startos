@@ -1,7 +1,7 @@
 EMVER := $(shell yq e ".version" manifest.yaml)
 ASSET_PATHS := $(shell find ./assets/*)
 SPHINX_RELAY_CFG_SRC := $(shell find ./sphinx-relay-configurator/src) sphinx-relay-configurator/Cargo.toml sphinx-relay-configurator/Cargo.lock
-SPHINX_RELAY_SRC := $(shell find ./sphinx-relay)
+SPHINX_RELAY_SRC := $(shell find ./sphinx-relay | grep -v node_modules)
 S9PK_PATH=$(shell find . -name sphinx-relay.s9pk -print)
 
 .DELETE_ON_ERROR:
