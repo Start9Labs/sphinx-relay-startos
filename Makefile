@@ -14,7 +14,7 @@ verify: sphinx-relay.s9pk $(S9PK_PATH)
 install: sphinx-relay.s9pk 
 	embassy-cli package install sphinx-relay.s9pk
 
-sphinx-relay.s9pk: image.tar instructions.md instructions.md LICENSE icon.png $(ASSET_PATHS)
+sphinx-relay.s9pk: image.tar instructions.md instructions.md LICENSE icon.png manifest.yaml $(ASSET_PATHS)
 	embassy-sdk pack
 
 image.tar: $(SPHINX_RELAY_SRC) Dockerfile docker_entrypoint.sh check-interface.sh sphinx-relay-configurator/target/aarch64-unknown-linux-musl/release/sphinx-relay-configurator

@@ -1,6 +1,6 @@
 id: sphinx-relay
 title: Sphinx Chat
-version: 2.1.5.2
+version: 2.1.5.3
 release-notes: "Upgrade to EmbassyOS v0.3.0"
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/sphinx-relay-wrapper"
