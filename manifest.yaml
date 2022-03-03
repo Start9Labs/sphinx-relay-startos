@@ -1,6 +1,6 @@
 id: sphinx-relay
 title: Sphinx Chat
-version: 2.1.5.1
+version: 2.1.5.2
 release-notes: "Upgrade to EmbassyOS v0.3.0"
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/sphinx-relay-wrapper"
@@ -107,7 +107,7 @@ interfaces:
     tor-config:
       port-mapping:
         3300: "3300"
-    ui: true
+    ui: false
     protocols:
       - tcp
       - http
