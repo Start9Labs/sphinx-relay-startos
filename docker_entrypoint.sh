@@ -2,11 +2,12 @@
 
 set -ea
 
+export PUBLIC_URL=$(yq e '.["tor-address"]' /relay/.lnd/start9/config.yaml):3300
 # daemonized tcp proxy to acquire ip address for internal lnd
 simpleproxy -d -L 43 -R lnd.embassy:10009
 
-_term() { 
-  echo "Caught SIGTERM signal!" 
+_term() {
+  echo "Caught SIGTERM signal!"
   kill -TERM "$properties_process" 2>/dev/null
   kill -TERM "$sphinx_process" 2>/dev/null
 }
