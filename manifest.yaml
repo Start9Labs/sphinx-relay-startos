@@ -1,7 +1,10 @@
 id: sphinx-relay
 title: Sphinx Chat
-version: 2.1.5.3
-release-notes: "Upgrade to EmbassyOS v0.3.0"
+version: 2.1.5.4
+release-notes: >-
+  - Upgrade to EmbassyOS v0.3.0
+  - Fix bug where the package would misreport the existence of a UI
+  - Fix bug preventing client devices from connecting
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/sphinx-relay-wrapper"
 upstream-repo: "https://github.com/stakwork/sphinx-relay"
@@ -11,7 +14,7 @@ build: ["make"]
 description:
   short: Chat on the Lightning Network.
   long: |
-   Sphinx Chat is a messaging service built on top of the Lightning Network. Each message sent and received on Sphinx is actually a transaction on Lightning. This serves to protect against spam and provides a means of monetizing content without trusted third parties.
+    Sphinx Chat is a messaging service built on top of the Lightning Network. Each message sent and received on Sphinx is actually a transaction on Lightning. This serves to protect against spam and provides a means of monetizing content without trusted third parties.
 assets:
   license: LICENSE
   icon: icon.png
@@ -27,7 +30,7 @@ main:
     lnd: /mnt/lnd
   io-format: yaml
 health-checks:
-  main: 
+  main:
     name: Network Interface
     success-message: The relay server is operational
     type: docker
@@ -36,7 +39,36 @@ health-checks:
     args: []
     io-format: json
     inject: true
-config: ~
+config:
+  get:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - config
+      - get
+      - /relay/.lnd
+      - /mnt/assets/config_spec.yaml
+    mounts:
+      compat: /mnt/assets
+      main: /relay/.lnd
+    io-format: yaml
+  set:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - config
+      - set
+      - sphinx-relay
+      - /relay/.lnd
+      - /mnt/assets/config_rules.yaml
+    mounts:
+      compat: /mnt/assets
+      main: /relay/.lnd
+    io-format: yaml
 properties:
   type: docker
   image: compat
@@ -56,7 +88,7 @@ dependencies:
       type: required
     description: The LND node you wish to use with Sphinx Chat.
     config:
-      check: 
+      check:
         type: docker
         image: compat
         system: true
@@ -68,7 +100,7 @@ dependencies:
           - lnd
           - "/relay/.lnd"
           - "/mnt/assets/lnd_config_rules.yaml"
-        mounts: 
+        mounts:
           main: "/relay/.lnd"
           compat: /mnt/assets
         io-format: yaml
@@ -77,7 +109,7 @@ dependencies:
         image: compat
         system: true
         entrypoint: compat
-        args: 
+        args:
           - dependency
           - "auto-configure"
           - sphinx-relay
