@@ -1,10 +1,8 @@
 id: sphinx-relay
 title: Sphinx Chat
-version: 2.1.5.4
-release-notes: >-
-  - Upgrade to EmbassyOS v0.3.0
-  - Fix bug where the package would misreport the existence of a UI
-  - Fix bug preventing client devices from connecting
+version: 2.2.6
+release-notes: |
+  Updates to release tag v2.2.6, details here: https://github.com/stakwork/sphinx-relay/releases/tag/v2.2.6
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/sphinx-relay-wrapper"
 upstream-repo: "https://github.com/stakwork/sphinx-relay"
@@ -83,7 +81,7 @@ properties:
   io-format: yaml
 dependencies:
   lnd:
-    version: ">=0.13.0.5 <0.14.0"
+    version: "^0.14.2"
     requirement:
       type: required
     description: The LND node you wish to use with Sphinx Chat.
