@@ -8,6 +8,10 @@ S9PK_PATH=$(shell find . -name sphinx-relay.s9pk -print)
 
 all: verify
 
+clean: 
+	rm sphinx-relay.s9pk
+	rm image.tar
+
 verify: sphinx-relay.s9pk $(S9PK_PATH)
 	embassy-sdk verify s9pk $(S9PK_PATH)
 
