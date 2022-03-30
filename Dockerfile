@@ -8,10 +8,11 @@ RUN apt-get update
 
 RUN apt install -y make python-minimal
 RUN apt install -y g++ gcc libmcrypt-dev
-RUN apt install -y sqlite3
+RUN apt-get -y install git
+
+RUN rm ./package-lock.json
 
 RUN npm install bcrypt
-RUN npm install sqlite3
 RUN npm install
 RUN npm run build
 
