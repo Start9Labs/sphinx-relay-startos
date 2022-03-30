@@ -81,7 +81,7 @@ properties:
   io-format: yaml
 dependencies:
   lnd:
-    version: "^0.14.2"
+    version: ">=0.13.0.5 <0.15.0"
     requirement:
       type: required
     description: The LND node you wish to use with Sphinx Chat.
