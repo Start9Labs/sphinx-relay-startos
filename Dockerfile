@@ -2,7 +2,7 @@ FROM arm64v8/node:12-buster-slim AS builder
 
 WORKDIR /relay
 RUN mkdir /relay/.lnd
-COPY sphinx-relay/ .
+COPY --chown=1000:1000 . .
 
 RUN apt-get update
 
@@ -10,28 +10,24 @@ RUN apt install -y make python-minimal
 RUN apt install -y g++ gcc libmcrypt-dev
 RUN apt-get -y install git
 
-RUN rm ./package-lock.json
+RUN rm ./sphinx-relay/package-lock.json
 
+WORKDIR /relay/sphinx-relay
 RUN npm install bcrypt
 RUN npm install
-RUN npm run build
 
-RUN cp /relay/config/app.json /relay/dist/config/app.json
-RUN cp /relay/config/config.json /relay/dist/config/config.json
+RUN cp /relay/sphinx-relay/config/app.json /relay/sphinx-relay/dist/config/app.json
+RUN cp /relay/sphinx-relay/config/config.json /relay/sphinx-relay/dist/config/config.json
 
-RUN npm rebuild
+RUN chown -R 1000:1000 /relay
 
 FROM arm64v8/node:12-buster-slim
 
-RUN apt-get update
-RUN apt-get install wget -y
-RUN wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_arm.tar.gz -O - |\
-  tar xz && mv yq_linux_arm /usr/bin/yq
-RUN apt-get install jq curl simpleproxy -y
+USER 1000
 
 WORKDIR /relay
 
-COPY --from=builder /relay .
+COPY --from=builder /relay/sphinx-relay .
 
 EXPOSE 3300
 
@@ -39,8 +35,4 @@ ENV NODE_ENV production
 ENV NODE_SCHEME http
 ENV PORT 3300
 
-ADD ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
-RUN chmod +x /usr/local/bin/docker_entrypoint.sh
-ADD ./check-interface.sh /usr/local/bin/check-interface.sh
-RUN chmod +x /usr/local/bin/check-interface.sh
-ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
+CMD [ "node", "/relay/sphinx-relay/dist/app.js" ]
