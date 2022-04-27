@@ -2,7 +2,7 @@ FROM arm64v8/node:12-buster-slim AS builder
 
 WORKDIR /relay
 RUN mkdir /relay/.lnd
-COPY --chown=1000:1000 . .
+COPY . .
 
 RUN apt-get update
 
@@ -19,11 +19,17 @@ RUN npm install
 RUN cp /relay/sphinx-relay/config/app.json /relay/sphinx-relay/dist/config/app.json
 RUN cp /relay/sphinx-relay/config/config.json /relay/sphinx-relay/dist/config/config.json
 
-RUN chown -R 1000:1000 /relay
-
 FROM arm64v8/node:12-buster-slim
 
-USER 1000
+RUN apt-get update
+RUN apt-get install wget -y
+RUN wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_arm.tar.gz -O - | tar xz && mv yq_linux_arm /usr/bin/yq
+RUN apt-get install jq curl simpleproxy -y
+
+ADD ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
+RUN chmod a+x /usr/local/bin/docker_entrypoint.sh
+ADD ./check-interface.sh /usr/local/bin/check-interface.sh
+RUN chmod a+x /usr/local/bin/check-interface.sh
 
 WORKDIR /relay
 
@@ -35,4 +41,5 @@ ENV NODE_ENV production
 ENV NODE_SCHEME http
 ENV PORT 3300
 
-CMD [ "node", "/relay/sphinx-relay/dist/app.js" ]
+ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
+
