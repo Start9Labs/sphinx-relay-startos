@@ -176,7 +176,7 @@ migrations:
       type: docker
       image: main
       system: false
-      entrypoint: "/usr/bin/echo"
+      entrypoint: "/bin/echo"
       args: ['{"configured": true}']
       io-format: json
       inject: false
@@ -185,7 +185,7 @@ migrations:
       type: docker
       image: main
       system: false
-      entrypoint: "/usr/bin/echo"
+      entrypoint: "/bin/echo"
       args: ['{"configured": true}']
       io-format: json
       inject: false
