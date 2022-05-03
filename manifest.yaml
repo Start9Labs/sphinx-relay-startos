@@ -170,3 +170,22 @@ backup:
       BACKUP: /mnt/backup
       main: "/relay/.lnd"
     io-format: yaml
+migrations:
+  from:
+    "<2.2.7":
+      type: docker
+      image: main
+      system: false
+      entrypoint: "/usr/bin/echo"
+      args: ['{"configured": true}']
+      io-format: json
+      inject: false
+  to:
+    "<2.2.7":
+      type: docker
+      image: main
+      system: false
+      entrypoint: "/usr/bin/echo"
+      args: ['{"configured": true}']
+      io-format: json
+      inject: false
