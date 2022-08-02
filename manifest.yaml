@@ -39,85 +39,22 @@ health-checks:
     inject: true
 config:
   get:
-    type: docker
-    image: compat
-    system: true
-    entrypoint: compat
-    args:
-      - config
-      - get
-      - /relay/.lnd
-      - /mnt/assets/config_spec.yaml
-    mounts:
-      compat: /mnt/assets
-      main: /relay/.lnd
-    io-format: yaml
+    type: script
   set:
-    type: docker
-    image: compat
-    system: true
-    entrypoint: compat
-    args:
-      - config
-      - set
-      - sphinx-relay
-      - /relay/.lnd
-      - /mnt/assets/config_rules.yaml
-    mounts:
-      compat: /mnt/assets
-      main: /relay/.lnd
-    io-format: yaml
+    type: script
 properties:
-  type: docker
-  image: compat
-  system: true
-  entrypoint: compat
-  args:
-    - properties
-    - "/relay/.lnd"
-  mounts:
-    main: "/relay/.lnd"
-    compat: /mnt/assets
-  io-format: yaml
+  type: script
 dependencies:
   lnd:
-    version: ">=0.13.0.5 <0.15.0"
+    version: ">=0.13.0.5 <0.16.0"
     requirement:
       type: required
     description: The LND node you wish to use with Sphinx Chat.
     config:
       check:
-        type: docker
-        image: compat
-        system: true
-        entrypoint: compat
-        args:
-          - dependency
-          - check
-          - sphinx-relay
-          - lnd
-          - "/relay/.lnd"
-          - "/mnt/assets/lnd_config_rules.yaml"
-        mounts:
-          main: "/relay/.lnd"
-          compat: /mnt/assets
-        io-format: yaml
+        type: script
       auto-configure:
-        type: docker
-        image: compat
-        system: true
-        entrypoint: compat
-        args:
-          - dependency
-          - "auto-configure"
-          - sphinx-relay
-          - lnd
-          - "/relay/.lnd"
-          - "/mnt/assets/lnd_config_rules.yaml"
-        mounts:
-          main: "/relay/.lnd"
-          compat: /mnt/assets
-        io-format: yaml
+        type: script
 volumes:
   main:
     type: data
@@ -172,20 +109,10 @@ backup:
     io-format: yaml
 migrations:
   from:
-    "<2.2.7":
-      type: docker
-      image: main
-      system: false
-      entrypoint: "/bin/echo"
-      args: ['{"configured": true}']
-      io-format: json
-      inject: false
+    "*":
+      type: script
+      args: ["from"]
   to:
-    "<2.2.7":
-      type: docker
-      image: main
-      system: false
-      entrypoint: "/bin/echo"
-      args: ['{"configured": true}']
-      io-format: json
-      inject: false
+    "*":
+      type: script
+      args: ["to"]

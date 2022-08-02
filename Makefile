@@ -9,8 +9,9 @@ S9PK_PATH=$(shell find . -name sphinx-relay.s9pk -print)
 all: verify
 
 clean: 
-	rm sphinx-relay.s9pk
-	rm image.tar
+	rm -f sphinx-relay.s9pk
+	rm -f image.tar
+	rm -f scripts/*.js
 
 verify: sphinx-relay.s9pk $(S9PK_PATH)
 	embassy-sdk verify s9pk $(S9PK_PATH)
@@ -18,7 +19,7 @@ verify: sphinx-relay.s9pk $(S9PK_PATH)
 install: sphinx-relay.s9pk 
 	embassy-cli package install sphinx-relay.s9pk
 
-sphinx-relay.s9pk: image.tar instructions.md instructions.md LICENSE icon.png manifest.yaml $(ASSET_PATHS)
+sphinx-relay.s9pk: image.tar instructions.md instructions.md LICENSE icon.png manifest.yaml scripts/embassy.js $(ASSET_PATHS) 
 	embassy-sdk pack
 
 image.tar: $(SPHINX_RELAY_SRC) Dockerfile docker_entrypoint.sh check-interface.sh sphinx-relay-configurator/target/aarch64-unknown-linux-musl/release/sphinx-relay-configurator
@@ -26,3 +27,6 @@ image.tar: $(SPHINX_RELAY_SRC) Dockerfile docker_entrypoint.sh check-interface.s
 
 sphinx-relay-configurator/target/aarch64-unknown-linux-musl/release/sphinx-relay-configurator: $(SPHINX_RELAY_CFG_SRC)
 	docker run --rm -it -v ~/.cargo/registry:/root/.cargo/registry -v "$(shell pwd)"/sphinx-relay-configurator:/home/rust/src start9/rust-musl-cross:aarch64-musl cargo +beta build --release
+
+scripts/embassy.js: scripts/**/*.ts
+	deno bundle scripts/embassy.ts scripts/embassy.js
