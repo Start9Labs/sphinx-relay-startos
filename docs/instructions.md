@@ -12,7 +12,7 @@ Using Sphinx requires that you have _both_ inbound and outbound liquidity on you
 
 ### Getting Outbound Liquidity
 
-Getting outbound liquidity is easy; just open a channel with a well-connected node and fund it with 100,000 sats. You can open a channel with Start9 [here](https://1ml.com/node/025d28dc4c4f5ce4194c31c3109129cd741fafc1ff2f6ea53f97de2f58877b2295) and/or you can open a channel with Sphinx's recommended node [here](https://github.com/stakwork/sphinx-relay/wiki/Home-node-FAQ).
+Follow these instructions [these instructions](https://github.com/stakwork/sphinx-relay/wiki/Home-node-FAQ) to open a channel with Sphinx's recommended node in the correct way so that the zero-fee transactions Sphinx makes will work smoothly. You can also open a channel with [Start9's node](https://1ml.com/node/025d28dc4c4f5ce4194c31c3109129cd741fafc1ff2f6ea53f97de2f58877b2295), but Sphinx may not be able to find zero-fee routes as easily.
 
 ### Getting Inbound Liquidity
 
