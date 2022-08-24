@@ -53,7 +53,7 @@ ready to use Sphinx.
 1. Scan or copy your "Connection String" into the Sphinx client. This can be
    found inside the `Properties` page of your Sphinx Embassy service.
 
-## Podcasting and Chat
+### Podcasting and Chat
 
 The Sphinx Chat client app, when connected to your Embassy Sphinx Relay server,
 offers decentralized podcasting, community channels (Tribes), and DMs. While the
@@ -63,7 +63,7 @@ DMs went through eventually. YMMV. Following the
 [official Sphinx setup guide](https://github.com/stakwork/sphinx-relay/wiki/Home-node-FAQ)
 (as indicated above) will help optimize this experience.
 
-# Lightning payments as spam control
+### Lightning payments as spam control
 
 The Sphinx Chat protocol uses Lighting micropayments to send messages using the
 lightning network. This allows both DMs and Tribes to protect themselves against
