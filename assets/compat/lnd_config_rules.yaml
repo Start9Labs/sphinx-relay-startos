@@ -1,6 +1,0 @@
-- rule: "accept-keysend?"
-  description: "Must have keysend for LND enabled"
-  suggestions:
-    - SET:
-        var: "accept-keysend"
-        to-value: true

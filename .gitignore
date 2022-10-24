@@ -1,3 +1,5 @@
 *.s9pk
 image.tar
 .vscode/
+scripts/*.js
+docker-images

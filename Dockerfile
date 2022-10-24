@@ -1,4 +1,4 @@
-FROM arm64v8/node:12-buster-slim AS builder
+FROM node:12-buster-slim AS builder
 
 WORKDIR /relay
 RUN mkdir /relay/.lnd
@@ -19,17 +19,19 @@ RUN npm install
 RUN cp /relay/sphinx-relay/config/app.json /relay/sphinx-relay/dist/config/app.json
 RUN cp /relay/sphinx-relay/config/config.json /relay/sphinx-relay/dist/config/config.json
 
-FROM arm64v8/node:12-buster-slim
+FROM node:12-buster-slim
+
+# arm64 or amd64
+ARG PLATFORM
 
 RUN apt-get update
 RUN apt-get install wget -y
-RUN wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_arm.tar.gz -O - | tar xz && mv yq_linux_arm /usr/bin/yq
+RUN wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_${PLATFORM}.tar.gz -O - |\
+  tar xz && mv yq_linux_${PLATFORM} /usr/bin/yq
 RUN apt-get install jq curl simpleproxy -y
 
 ADD ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 RUN chmod a+x /usr/local/bin/docker_entrypoint.sh
-ADD ./check-interface.sh /usr/local/bin/check-interface.sh
-RUN chmod a+x /usr/local/bin/check-interface.sh
 
 WORKDIR /relay
 

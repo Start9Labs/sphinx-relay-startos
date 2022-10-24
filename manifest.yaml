@@ -1,8 +1,9 @@
 id: sphinx-relay
 title: Sphinx Chat
-version: 2.2.9
+version: 2.2.10
 release-notes: |
-  Updates to release tag v2.2.9, details here: https://github.com/stakwork/sphinx-relay/releases/tag/v2.2.9
+  - Updates upstream to v2.2.10, official release notes: https://github.com/stakwork/sphinx-relay/releases/tag/v2.2.10
+  - Updates to run on x86_64 architecture
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/sphinx-relay-wrapper"
 upstream-repo: "https://github.com/stakwork/sphinx-relay"
@@ -28,15 +29,10 @@ main:
     lnd: /mnt/lnd
   io-format: yaml
 health-checks:
-  main:
+  interface:
     name: Network Interface
     success-message: The relay server is operational
-    type: docker
-    image: main
-    entrypoint: check-interface.sh
-    args: []
-    io-format: json
-    inject: true
+    type: script
 config:
   get:
     type: script
@@ -58,8 +54,6 @@ dependencies:
 volumes:
   main:
     type: data
-  compat:
-    type: assets
   lnd:
     type: pointer
     package-id: lnd
