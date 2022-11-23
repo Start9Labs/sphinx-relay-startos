@@ -4,6 +4,7 @@ version: 2.2.10
 release-notes: |
   - Updates upstream to v2.2.10, official release notes: https://github.com/stakwork/sphinx-relay/releases/tag/v2.2.10
   - Update to run on x86_64 architecture
+  - Utilize new eOS APIs
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/sphinx-relay-wrapper"
 upstream-repo: "https://github.com/stakwork/sphinx-relay"
@@ -19,14 +20,13 @@ assets:
   icon: icon.png
   instructions: instructions.md
 main:
-  type: docker
-  image: main
-  entrypoint: docker_entrypoint.sh
-  args: []
-  mounts:
-    main: "/relay/.lnd"
-    lnd: /mnt/lnd
-  io-format: yaml
+  type: script
+containers:
+  main:
+    image: main
+    mounts:
+      main: "/relay/.lnd"
+      lnd: /mnt/lnd
 health-checks:
   interface:
     name: Network Interface
