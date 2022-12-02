@@ -9,17 +9,6 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
     "package-id": "sphinx-relay",
     "target": "tor-address",
     "interface": "network"
-  },
-  "password": {
-    "type": "string",
-    "name": "Password",
-    "nullable": false,
-    "copyable": true,
-    "masked": true,
-    "default": {
-        "len": 22,
-        "charset": "a-z,A-Z,0-9"
-    }
   }
  });
  
