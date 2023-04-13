@@ -1,9 +1,9 @@
 id: sphinx-relay
 title: Sphinx Chat
-version: 2.2.10
+version: 2.3.0
 release-notes: |
-  - Updates upstream to v2.2.10, official release notes: https://github.com/stakwork/sphinx-relay/releases/tag/v2.2.10
-  - Update to run on x86_64 architecture
+  - Update to v2.3.0 [Release Notes](https://github.com/stakwork/sphinx-relay/releases/tag/v2.3.0)
+  - Update LND dependency version 
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/sphinx-relay-wrapper"
 upstream-repo: "https://github.com/stakwork/sphinx-relay"
@@ -41,7 +41,7 @@ properties:
   type: script
 dependencies:
   lnd:
-    version: ">=0.13.0.5 <0.16.0"
+    version: ">=0.13.0.5 <0.17.0"
     requirement:
       type: required
     description: The LND node you wish to use with Sphinx Chat.
