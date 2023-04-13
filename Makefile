@@ -23,7 +23,6 @@ install: $(PKG_ID).s9pk
 	embassy-cli package install $(PKG_ID).s9pk
 
 $(PKG_ID).s9pk: instructions.md instructions.md LICENSE icon.png manifest.yaml scripts/embassy.js docker-images/aarch64.tar docker-images/x86_64.tar
-	if ! [ -z "$(ARCH)" ]; then cp docker-images/$(ARCH).tar image.tar; fi
 	embassy-sdk pack
 
 docker-images/aarch64.tar: $(SPHINX_RELAY_SRC) Dockerfile docker_entrypoint.sh sphinx-relay-configurator/target/aarch64-unknown-linux-musl/release/sphinx-relay-configurator
