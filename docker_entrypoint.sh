@@ -3,8 +3,6 @@
 set -ea
 
 export PUBLIC_URL=$(yq e '.["tor-address"]' /relay/.lnd/start9/config.yaml):3300
-# daemonized tcp proxy to acquire ip address for internal lnd
-simpleproxy -d -L 43 -R lnd.embassy:10009
 
 _term() {
   echo "Caught SIGTERM signal!"
@@ -15,8 +13,8 @@ _term() {
 jq '.production.macaroon_location = "/mnt/lnd/admin.macaroon"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
 jq '.production.tls_location = "/mnt/lnd/tls.cert"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
 jq '.production.connection_string_path = "/relay/.lnd/connection_string.txt"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
-jq '.production.lnd_ip = "localhost"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
-jq '.production.lnd_port = "43"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+jq '.production.lnd_ip = "lnd.embassy"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
+jq '.production.lnd_port = "10009"' /relay/dist/config/app.json > /relay/dist/config/app.json.tmp && mv /relay/dist/config/app.json.tmp /relay/dist/config/app.json
 
 mkdir -p /relay/.lnd/start9/
 
