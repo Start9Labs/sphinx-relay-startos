@@ -1,9 +1,9 @@
 id: sphinx-relay
 title: Sphinx Chat
-version: 2.3.0
+version: 2.4.6
 release-notes: |
-  - Update to v2.3.0 [Release Notes](https://github.com/stakwork/sphinx-relay/releases/tag/v2.3.0)
-  - Update LND dependency version 
+  - Update to v2.4.6 [Release Notes](https://github.com/stakwork/sphinx-relay/releases/tag/v2.3.0)
+  - Update LND dependency version
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/sphinx-relay-wrapper"
 upstream-repo: "https://github.com/stakwork/sphinx-relay"

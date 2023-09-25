@@ -1,4 +1,4 @@
-FROM node:12-buster-slim AS builder
+FROM node:16-buster-slim AS builder
 
 WORKDIR /relay
 RUN mkdir /relay/.lnd
@@ -19,7 +19,7 @@ RUN npm install
 RUN cp /relay/sphinx-relay/config/app.json /relay/sphinx-relay/dist/config/app.json
 RUN cp /relay/sphinx-relay/config/config.json /relay/sphinx-relay/dist/config/config.json
 
-FROM node:12-buster-slim
+FROM node:16-buster-slim
 
 # arm64 or amd64
 ARG PLATFORM
